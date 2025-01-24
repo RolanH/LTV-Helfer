@@ -2,12 +2,12 @@
 
 import { ActionState } from "@/types"
 import { createEvent } from "ics"
-import { getEventByIdAction } from "@/actions/db/events-actions"
+import { getEventAction } from "@/actions/db/events-actions"
 
 export async function generateIcalAction(eventId: string): Promise<ActionState<string>> {
   try {
     // Get the event
-    const eventResult = await getEventByIdAction(eventId)
+    const eventResult = await getEventAction(eventId)
     if (!eventResult.isSuccess || !eventResult.data) {
       return { isSuccess: false, message: "Event nicht gefunden." }
     }
