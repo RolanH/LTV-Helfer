@@ -9,7 +9,7 @@ export const commentsTable = pgTable("comments", {
     .notNull(),
   content: text("content").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull()
 })
 
 export type InsertComment = typeof commentsTable.$inferInsert
