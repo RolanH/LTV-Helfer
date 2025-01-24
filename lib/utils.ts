@@ -11,14 +11,17 @@ export function cn(...inputs: ClassValue[]) {
 /**
  * Formatiert ein Datum in deutsches Format.
  */
-export function formatDate(date: Date | string): string {
-  const d = new Date(date)
-  return d.toLocaleDateString("de-DE", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
+export function formatDate(date: Date | string) {
+  return new Date(date).toLocaleDateString("de-DE", {
     day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit"
+    month: "long",
+    year: "numeric",
   })
+}
+
+export function formatPrice(price: number) {
+  return new Intl.NumberFormat("de-DE", {
+    style: "currency",
+    currency: "EUR",
+  }).format(price)
 } 
