@@ -21,7 +21,7 @@ export async function createCommentAction(
     }
 
     // Check if event exists
-    const event = await db.query.events.findFirst({
+    const event = await db.query.eventsTable.findFirst({
       where: eq(eventsTable.id, data.eventId)
     })
 
@@ -122,7 +122,7 @@ export async function deleteCommentAction(id: string): Promise<ActionState<void>
     }
 
     // Allow both comment author and event creator to delete comments
-    const event = await db.query.events.findFirst({
+    const event = await db.query.eventsTable.findFirst({
       where: eq(eventsTable.id, comment.eventId)
     })
 
