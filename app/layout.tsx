@@ -7,11 +7,6 @@ import Navbar from "@/components/navbar"
 
 const inter = Inter({ subsets: ["latin"] })
 
-export const metadata = {
-  title: "Helfer-App",
-  description: "Eine App für Helfer und Organisatoren",
-}
-
 export default function RootLayout({
   children,
 }: {
