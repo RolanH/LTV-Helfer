@@ -22,6 +22,16 @@ export async function createCommentAction(
 
     // Check if event exists
     const event = await db.query.events.findFirst({
+      columns: {
+        id: true,
+        userId: true,
+        title: true,
+        description: true,
+        location: true,
+        eventDate: true,
+        createdAt: true,
+        updatedAt: true
+      },
       where: eq(eventsTable.id, data.eventId)
     })
 
@@ -50,14 +60,23 @@ export async function getCommentsByEventIdAction(
 ): Promise<ActionState<SelectComment[]>> {
   try {
     const comments = await db.query.comments.findMany({
+      columns: {
+        id: true,
+        userId: true,
+        eventId: true,
+        content: true,
+        createdAt: true,
+        updatedAt: true
+      },
       where: eq(commentsTable.eventId, eventId),
-      orderBy: (comments, { desc }) => [desc(comments.createdAt)]
+      orderBy: (tbl, { desc }) => [desc(tbl.createdAt)]
     })
 
+    // Telling TypeScript these records match our SelectComment shape
     return {
       isSuccess: true,
       message: "Comments retrieved successfully",
-      data: comments
+      data: comments as SelectComment[]
     }
   } catch (error) {
     console.error("Error getting comments:", error)
@@ -77,6 +96,14 @@ export async function updateCommentAction(
 
     // Check if comment exists and belongs to user
     const comment = await db.query.comments.findFirst({
+      columns: {
+        id: true,
+        userId: true,
+        eventId: true,
+        content: true,
+        createdAt: true,
+        updatedAt: true
+      },
       where: eq(commentsTable.id, id)
     })
 
@@ -114,6 +141,14 @@ export async function deleteCommentAction(id: string): Promise<ActionState<void>
 
     // Check if comment exists and belongs to user
     const comment = await db.query.comments.findFirst({
+      columns: {
+        id: true,
+        userId: true,
+        eventId: true,
+        content: true,
+        createdAt: true,
+        updatedAt: true
+      },
       where: eq(commentsTable.id, id)
     })
 
@@ -123,6 +158,16 @@ export async function deleteCommentAction(id: string): Promise<ActionState<void>
 
     // Allow both comment author and event creator to delete comments
     const event = await db.query.events.findFirst({
+      columns: {
+        id: true,
+        userId: true,
+        title: true,
+        description: true,
+        location: true,
+        eventDate: true,
+        createdAt: true,
+        updatedAt: true
+      },
       where: eq(eventsTable.id, comment.eventId)
     })
 
